@@ -22,7 +22,6 @@ abalone <- continuous.to.factor(var.name='lat',cuts=seq(38,39.06,by=0.06),df=aba
 
 #----------------------------------
 #model data
-library(tree)
 
 model1 <- treeclass.est(df=abalone)
 size <- summary(model1)$size
@@ -35,8 +34,19 @@ tree.results <- data.frame(rbindlist(lapply(c(0:3),function(i){
    return(data.frame(tree_size=term.nodes,pct.correct=pct.correct))
 })
 ))
+tree.results
 
-#compare the tree based classifier to a poisson regression
+#find the best poisson model
+x <- list(c('shell_weight','diameter'),c('shell_weight','diameter','lat'),
+          c('shell_weight','diameter','sex'))
+
+poi.results <- data.frame(rbindlist(lapply(c(1:3),function(i){
+  x.name <- x[[i]]
+  pct.correct <- cvpoi.fn(y.name='ring',x.name=x.name,data=abalone,train.pct=0.8)
+  return(data.frame(poi.model=i,pct.correct=pct.correct))
+})
+))
+poi.results
 
 #----------------------------------
 
