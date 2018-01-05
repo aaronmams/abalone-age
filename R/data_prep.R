@@ -65,5 +65,4 @@ tmp <- data.frame(idw)
 abalone <- data.frame(abalone,tmp$var1.pred)
 names(abalone) <- c('sex','length','diameter','height','whole_weight','shucked_weight',
                     'viscera_weight','shell_weight','ring','lat','long','depth_meters')
-abalone <- tbl_df(abalone) %>% mutate(depth_fm=depth_meters*0.54)
 saveRDS(abalone,"data/abalone.RDA")
